@@ -1,28 +1,34 @@
-import {useState} from "react";
-import {createTodo} from "../todoApp/todoApp";
+import React, { useState } from 'react';
+import { message } from 'antd';
+import { createTodo } from '../jobs';
 
-function TodoForm() {
-    const [todo, setTodo] = useState('')
+function TodoForm(props) {
+  const [todo, setTodo] = useState({ title: '', completed: false });
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        console.log('todo:', todo)
-        createTodo(todo).then(r => console.log(r))
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (todo.title === '') {
+      message.error('Field can not be blank');
+    } else {
+      // eslint-disable-next-line react/destructuring-assignment
+      createTodo(todo).then(() => props.changeState(['deleted todo']));
+      setTodo({ ...todo, title: '' });
     }
-    return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label htmlFor="title">Todo</label>
-                <input id="title"
-                       type="text"
-                       onChange={
-                           (event) => setTodo(event.target.value)
-                       }/>
-            </div>
+  };
 
-            <button type="submit">Submit</button>
-        </form>
-    );
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={todo.title}
+          onChange={(e) => setTodo({ ...todo, title: e.target.value })}
+        />
+        <button type="submit"> Submit </button>
+      </form>
+    </div>
+  );
 }
 
 export default TodoForm;
