@@ -51,6 +51,7 @@ function Todo({
     showModal();
     updateTodo({ ...edit, title: edit.title, id }).then(() => changeState(['new data']));
     message.info('Task updated');
+
     setIsModalVisible(false);
   };
   const handleCancel = () => {
