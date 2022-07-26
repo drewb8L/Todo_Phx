@@ -1,9 +1,11 @@
+/* eslint-disable react/prop-types */
 // noinspection JSIgnoredPromiseFromCall
 
 import React, { useEffect, useState } from 'react';
+import { EditFilled, CheckCircleFilled } from '@ant-design/icons';
 import {
-  Button, message, Modal, Popconfirm,
-} from 'antd';
+   Button, message, Modal, Popconfirm 
+  } from 'antd';
 import { deleteTodo, getTodos, updateTodo } from '../jobs';
 import './todo.css';
 import 'antd/dist/antd.css';
@@ -27,14 +29,15 @@ function Todo({
 
   const handleComplete = (e) => {
     // eslint-disable-next-line no-shadow
-    let todo = e.target.value;
+    // let todo = e.target.value;
     todo = JSON.parse(todo);
+    console.log(todo);
     todo.complete = !todo.complete;
     updateTodo(todo).then(() => changeState(['new data']));
     message.info(
       todo.complete === false
         ? `${todo.title} Reset`
-        : `${todo.title} Completed`,
+        : `${todo.title} Completed`
     );
   };
   const handelDelete = (todoId) => {
@@ -49,7 +52,9 @@ function Todo({
   const handleEdit = (e) => {
     e.preventDefault();
     showModal();
-    updateTodo({ ...edit, title: edit.title, id }).then(() => changeState(['new data']));
+    updateTodo({ ...edit, title: edit.title, id }).then(() =>
+      changeState(['new data'])
+    );
     message.info('Task updated');
 
     setIsModalVisible(false);
@@ -62,6 +67,10 @@ function Todo({
     setConfirmVisible(true);
   };
 
+  const toggleComplete = () => {
+
+  }
+
   return (
     <div className="todo">
       <h4>{title}</h4>
@@ -70,26 +79,19 @@ function Todo({
         {complete ? 'Yes' : 'No'}
       </p>
       <section className="update">
-        <button
-          type="button"
-          className="edit"
-          style={{ backgroundColor: '#33bfff' }}
-          onClick={showModal}
+        <Button icon={<EditFilled />} onClick={showModal}>
+          Edit
+        </Button>
+       
+        <Button
+        icon={<CheckCircleFilled />}
+        value={todo}
+        type={complete ? "ghost" : "primary"}
+        onClick={handleComplete}
+        
         >
-          edit
-        </button>
-        <button
-          type="button"
-          className="complete-toggle"
-          style={
-            // eslint-disable-next-line react/prop-types
-            complete ? { backgroundColor: 'green' } : { backgroundColor: 'red' }
-          }
-          value={todo}
-          onClick={handleComplete}
-        >
-          {complete ? 'Done' : 'complete task'}
-        </button>
+          {complete ? 'Done' : 'Complete Task'}
+          </Button>
         <Popconfirm
           title="delete"
           visible={popconfirmVisible}
@@ -97,14 +99,11 @@ function Todo({
           okButtonProps={id}
           onCancel={handleCancel}
         >
-          <button
-            type="button"
-            className="delete"
-            value={id}
-            onClick={showPopconfirm}
-          >
-            delete
-          </button>
+          <Button
+          type='danger'
+          value={id}
+          onClick={showPopconfirm}
+          >Delete</Button>
         </Popconfirm>
 
         <Modal
