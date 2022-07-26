@@ -4,8 +4,9 @@ defmodule TodoPhx.Models do
   """
 
   import Ecto.Query, warn: false
-  alias TodoPhx.Repo
 
+  alias TodoPhx.Repo
+  alias TodoPhx.Models.List
   alias TodoPhx.Models.Todo
 
   @doc """
@@ -20,6 +21,8 @@ defmodule TodoPhx.Models do
   def list_todos do
     Repo.all(Todo)
   end
+
+
 
   @doc """
   Gets a single todo.
@@ -100,5 +103,23 @@ defmodule TodoPhx.Models do
   """
   def change_todo(%Todo{} = todo, attrs \\ %{}) do
     Todo.changeset(todo, attrs)
+  end
+
+  @doc """
+  Create a new list to store todos
+
+  """
+  def create_list(attrs \\ {}) do
+    %List{}
+      |> List.changeset(attrs)
+      |> Repo.insert()
+  end
+
+  @doc """
+  get a list with all it's todos
+
+  """
+  def get_list_and_todos(list_id) do
+    Repo.get!(List, list_id)  |> TodoPhx.Repo.preload(:todos)
   end
 end
