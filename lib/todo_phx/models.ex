@@ -122,4 +122,14 @@ defmodule TodoPhx.Models do
   def get_list_and_todos(list_id) do
     Repo.get!(List, list_id)  |> TodoPhx.Repo.preload(:todos)
   end
+
+  def delete_list(%List{} = list) do
+    Repo.delete(list)
+  end
+
+  def update_list(%List{} = list, attrs) do
+    list
+    |> List.changeset(attrs)
+    |> Repo.update()
+  end
 end

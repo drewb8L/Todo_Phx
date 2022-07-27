@@ -4,7 +4,7 @@ defmodule TodoPhx.Models.List do
 
   schema "lists" do
     field :name, :string
-    has_many :todos, TodoPhx.Models.Todo
+    has_many :todos, TodoPhx.Models.Todo, on_delete: :delete_all
 
     timestamps()
   end
