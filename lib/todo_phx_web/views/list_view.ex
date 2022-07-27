@@ -7,7 +7,7 @@ defmodule TodoPhxWeb.ListView do
   end
 
   def render("show.json", %{list: list}) do
-    render_one(list, TodoView, "list.json")
+    render_one(list, ListView, "list.json")
   end
 
   def render("list.json", %{list: list}) do
@@ -15,14 +15,6 @@ defmodule TodoPhxWeb.ListView do
       id: list.id,
       name: list.name,
       todos: list.todos
-    }
-  end
-
-  def render("list.json", %{lists: lists}) do
-    %{
-      id: lists.id,
-      name: lists.name,
-#      todos: lists.todos
     }
   end
 end

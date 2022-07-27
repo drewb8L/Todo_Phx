@@ -8,9 +8,6 @@ defmodule TodoPhxWeb.TodoController do
   end
 
   def create(conn, todo_params) do
-    IO.inspect(todo_params)
-    IO.inspect(conn)
-
     with {:ok, %Todo{} = todo} <- Models.create_todo(todo_params) do
       conn
       |> put_status(:created)
@@ -20,7 +17,6 @@ defmodule TodoPhxWeb.TodoController do
   end
 
   def show(conn, %{"id" => id}) do
-    IO.inspect(conn)
     todo = Models.get_todo!(id)
     render(conn, "show.json", todo: todo)
   end

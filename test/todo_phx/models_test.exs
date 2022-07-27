@@ -37,8 +37,6 @@ defmodule TodoPhx.ModelsTest do
       assert list.name == "Updated Name"
     end
 
-
-
     test "update_list/2 with invalid data returns error changeset" do
       list = list_fixture()
       assert {:error, %Ecto.Changeset{}} = Models.update_list(list, @invalid_list_attrs)
@@ -49,7 +47,6 @@ defmodule TodoPhx.ModelsTest do
       assert {:ok, %List{}} = Models.delete_list(list)
       assert_raise Ecto.NoResultsError, fn -> Models.get_list_and_todos(list.id) end
     end
-
 
     test "get_todo!/1 returns the todo with given id" do
       todo = todo_fixture()

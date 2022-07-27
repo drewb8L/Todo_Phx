@@ -22,8 +22,6 @@ defmodule TodoPhx.Models do
     Repo.all(Todo)
   end
 
-
-
   @doc """
   Gets a single todo.
 
@@ -119,8 +117,9 @@ defmodule TodoPhx.Models do
   """
   def create_list(attrs \\ {}) do
     %List{}
-      |> List.changeset(attrs)
-      |> Repo.insert()
+    |> Repo.preload(:todos)
+    |> List.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """
@@ -128,22 +127,23 @@ defmodule TodoPhx.Models do
 
   """
   def get_list_and_todos(list_id) do
-    Repo.get!(List, list_id)  |> TodoPhx.Repo.preload(:todos)
+    Repo.get!(List, list_id) |> TodoPhx.Repo.preload(:todos)
   end
 
-  @doc"""
-  Delete a list by id
-"""
+  @doc """
+    Delete a list by id
+  """
   def delete_list(%List{} = list) do
     Repo.delete(list)
   end
 
   @doc """
 
-  Update a list by id
-"""
+    Update a list by id
+  """
   def update_list(%List{} = list, attrs) do
     list
+    |> Repo.preload(:todos)
     |> List.changeset(attrs)
     |> Repo.update()
   end

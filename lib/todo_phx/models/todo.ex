@@ -1,9 +1,7 @@
 defmodule TodoPhx.Models.Todo do
   use Ecto.Schema
   import Ecto.Changeset
-  @derive {Jason.Encoder, only: [:title, :complete, :id]}
-
-
+  @derive {Jason.Encoder, only: [:title, :complete, :id, :list_id]}
 
   schema "todos" do
     field :complete, :boolean, default: false

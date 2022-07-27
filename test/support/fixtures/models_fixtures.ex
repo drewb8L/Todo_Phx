@@ -8,11 +8,12 @@ defmodule TodoPhx.ModelsFixtures do
   """
   def list_fixture(attrs \\ %{}) do
     {:ok, list} =
-    attrs
-    |> Enum.into(%{
-    name: "New List"
-    })
-    |> TodoPhx.Models.create_list()
+      attrs
+      |> Enum.into(%{
+        name: "New List"
+      })
+      |> TodoPhx.Models.create_list()
+
     list |> TodoPhx.Repo.preload(:todos)
   end
 
@@ -25,7 +26,6 @@ defmodule TodoPhx.ModelsFixtures do
       |> Enum.into(%{
         complete: true,
         title: "some title"
-
       })
       |> TodoPhx.Models.create_todo()
 
