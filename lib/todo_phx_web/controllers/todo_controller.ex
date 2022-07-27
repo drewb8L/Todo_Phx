@@ -3,7 +3,6 @@ defmodule TodoPhxWeb.TodoController do
   alias TodoPhx.{Models, Models.Todo}
 
   def index(conn, _params) do
-    IO.inspect(_params)
     todos = Models.list_todos()
     render(conn, "index.json", todos: todos)
   end

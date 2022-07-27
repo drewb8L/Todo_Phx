@@ -28,6 +28,10 @@ defmodule TodoPhxWeb.Router do
     resources "/todos", TodoController, except: [:new]
     options "/todos", TodoController, :options
     options "/todos/:id", TodoController, :options
+
+    resources "/lists", ListController, except: [:new]
+    options "/lists", ListController, :options
+    options "/lists/:id", ListController, :options
   end
 
   # Enables LiveDashboard only for development

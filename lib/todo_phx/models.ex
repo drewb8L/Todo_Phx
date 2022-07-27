@@ -106,6 +106,14 @@ defmodule TodoPhx.Models do
   end
 
   @doc """
+  Get all lists and their todos
+
+  """
+  def get_lists() do
+    Repo.all(List) |> Repo.preload(:todos)
+  end
+
+  @doc """
   Create a new list to store todos
 
   """
@@ -116,17 +124,24 @@ defmodule TodoPhx.Models do
   end
 
   @doc """
-  get a list with all it's todos
+  Get a list by id with all it's todos
 
   """
   def get_list_and_todos(list_id) do
     Repo.get!(List, list_id)  |> TodoPhx.Repo.preload(:todos)
   end
 
+  @doc"""
+  Delete a list by id
+"""
   def delete_list(%List{} = list) do
     Repo.delete(list)
   end
 
+  @doc """
+
+  Update a list by id
+"""
   def update_list(%List{} = list, attrs) do
     list
     |> List.changeset(attrs)
