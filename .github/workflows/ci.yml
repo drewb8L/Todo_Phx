@@ -22,7 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - name: react
         working-directory: ./todo_react
         with:
           node-version: 16
