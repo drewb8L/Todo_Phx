@@ -16,10 +16,10 @@ jobs:
         - uses: erlef/setup-beam@v1
           with:
             otp-version: '24'
-            elixir-version: '1.13.4'
-  job2:          
-    - run: mix deps.get
-    - run: mix test
+            elixir-version: '1.13.4'          
+        - run: mix deps.get
+        - run: mix test
+  job2:
     - name: react
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
