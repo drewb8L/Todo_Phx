@@ -18,4 +18,12 @@ jobs:
           elixir-version: '1.13.4'
       - run: mix deps.get
       - run: mix test
-      - run: todo_react/npm test
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        working-directory: ./todo_react
+      - run: npm ci
+      - run: npm test
+
+   
