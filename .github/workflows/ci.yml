@@ -25,9 +25,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      working-directory: ./todo_react
-      - run: |
-          npm build
-          npm test    
+      - run:
+          working-directory: ./todo_react
+          run: npm build
+          run: npm test    
         
      
