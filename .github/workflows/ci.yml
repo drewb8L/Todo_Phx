@@ -21,11 +21,11 @@ jobs:
   npm:
     runs-on: ubuntu-latest
     steps:
+     working-directory: ./todo_react
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          working-directory: ./todo_react
       - run: npm test    
         
      
