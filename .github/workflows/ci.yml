@@ -20,12 +20,12 @@ jobs:
       - run: mix test
   npm:
     runs-on: ubuntu-latest
+     working-directory: ./todo_react
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          working-directory: ./todo_react
       - run: npm test    
         
      
