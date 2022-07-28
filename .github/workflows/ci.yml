@@ -26,6 +26,7 @@ jobs:
       - name: react
         working-directory: ./todo_react
         run: |
+          npm install
           npm test    
         
      
