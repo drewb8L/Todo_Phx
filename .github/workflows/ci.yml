@@ -26,7 +26,6 @@ jobs:
         with:
           node-version: 16
           working-directory: ./todo_react
-      - run: npm build
       - run: npm test    
         
      
