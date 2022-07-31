@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Form, Button, Input,
 } from 'antd';
-import { createTodo } from '../jobs';
+import {createTodo, getTodos} from '../jobs';
+import {Context} from "../App";
 
-function TodoForm({ changeState }) {
-  const [todo, setTodo] = useState({ title: '', completed: false });
+// eslint-disable-next-line react/prop-types
+function TodoForm({ listId }) {
+  let {setState, state} = React.useContext(Context)
+  const [todo, setTodo] = useState({ title: '', completed: false, list_id: null });
   const [form] = Form.useForm();
 
+  useEffect(() =>{
+    getTodos().then(() => setState('new state'))
+
+  },[state])
+
   const handleSubmit = async (newTodo) => {
-    await setTodo({ ...todo, title: newTodo.task });
-    createTodo(todo).then(() => changeState(['deleted todo']));
-    setTodo({ ...todo, title: '' });
+    setTodo({ ...todo, title: newTodo.task, list_id: listId});
+    await createTodo(todo).then(() => setState(['update state']))
+    console.log('new todo' + state)
+    setTodo({ ...todo, title: '', list_id: null });
     form.resetFields();
   };
 
@@ -24,7 +33,7 @@ function TodoForm({ changeState }) {
         name="Todo-form"
         // initialValues={{ task: '' }}
         preserve={false}
-        onValuesChange={(e) => setTodo({ ...todo, title: e.task })}
+        onValuesChange={(e) => setTodo({ ...todo, title: e.task, list_id: listId })}
         onFinish={handleSubmit}
       >
         <Form.Item

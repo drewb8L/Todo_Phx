@@ -9,6 +9,7 @@ import {
 import { deleteTodo, getTodos, updateTodo } from '../jobs';
 import './todo.css';
 import 'antd/dist/antd.css';
+import {Context} from "../App";
 
 function Todo({
   // eslint-disable-next-line react/prop-types
@@ -18,16 +19,20 @@ function Todo({
   title,
   todo,
 }) {
+
   // eslint-disable-next-line no-unused-vars
   const [completed, setCompleted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [popconfirmVisible, setConfirmVisible] = useState(false);
   const [edit, setEdit] = useState({ title: '', id: '' });
-  useEffect(() => {
-    getTodos();
-  }, [setCompleted]);
+  let {setState, state} = React.useContext(Context);
 
-  const handleComplete = (e) => {
+  useEffect(() => {
+    getTodos()
+    console.log("from todo")
+  }, [state]);
+
+  const handleComplete = () => {
     // eslint-disable-next-line no-shadow
     // let todo = e.target.value;
     todo = JSON.parse(todo);
@@ -39,6 +44,7 @@ function Todo({
         ? `${todo.title} Reset`
         : `${todo.title} Completed`
     );
+    setState('new state')
   };
   const handelDelete = (todoId) => {
     deleteTodo(todoId).then(() => changeState(['deleted todo']));
@@ -67,9 +73,6 @@ function Todo({
     setConfirmVisible(true);
   };
 
-  const toggleComplete = () => {
-
-  }
 
   return (
     <div className="todo">

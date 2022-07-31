@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react';
 import Todo from './Todo';
 import { getTodos } from '../jobs';
 import TodoForm from './TodoForm';
+import {Context} from "../App";
+import './todo.css'
 
-function TodoList() {
+
+function TodoList({todo, listId}) {
+    let {setState, state} = React.useContext(Context)
   const [todos, setTodos] = useState([]);
-  const [state, setState] = useState([]);
+  // const [state, setState] = useState([]);
 
   useEffect(() => {
-    getTodos().then((data) => setTodos(data));
-  }, [state]);
+    getTodos().then(() => setTodos(todo))
+    console.log("todolist")
+  }, [todo]);
 
   return (
     <>
-      <TodoForm changeState={setState} />
+      <TodoForm changeState={setState} listId={listId} />
       <ul style={{ listStyleType: 'none' }}>
         {todos.map((item) => (
           <li key={item.id}>
             <Todo
+                className="todo"
               todo={JSON.stringify(item)}
               complete={item.complete}
               title={item.title}

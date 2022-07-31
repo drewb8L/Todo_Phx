@@ -25,4 +25,8 @@ describe(TodoForm, () => {
     render(<TodoForm />);
     expect(screen.getByText('Todo List')).toBeInTheDocument();
   });
+
+  test("Inputs should initially be empty", () => {
+    render(<TodoForm />);
+  })
 });
