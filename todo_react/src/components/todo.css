@@ -3,10 +3,6 @@
   padding: 10px;
 }
 
-li:nth-child(even) {
-  background-color: #e0dede;
-}
-
 .complete-toggle {
   color: white;
 }

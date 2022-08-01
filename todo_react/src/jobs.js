@@ -1,12 +1,30 @@
-const URL = process.env.REACT_APP_TODO_API_URL;
+const URL = "http://localhost:4000/api/todos";
+const LISTURL = "http://localhost:4000/api/lists"
+
 
 export const getTodos = () => {
   // eslint-disable-next-line no-console
-  console.log(URL);
   return fetch(URL).then((res) => res.json());
 };
 
-// export const getTodo = (id) => fetch(`${URL}/${id}`).then((res) => res.json());
+
+export const getLists = () => {
+  return fetch(LISTURL).then((res) => res.json());
+}
+
+export const createList = (list) => fetch(LISTURL,{
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: list.name,
+  }),
+}).then((res) => res.json());
+
+export const deleteList = (id) => fetch(`${LISTURL}/${id}`, {
+  method: 'DELETE',
+}).then((res) => res.json());
 
 export const createTodo = (todo) => fetch(URL, {
   method: 'POST',
@@ -16,6 +34,7 @@ export const createTodo = (todo) => fetch(URL, {
   body: JSON.stringify({
     title: todo.title,
     completed: todo.completed,
+    list_id: todo.list_id,
   }),
 }).then((res) => res.json());
 
