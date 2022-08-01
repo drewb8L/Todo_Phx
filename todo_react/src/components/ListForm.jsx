@@ -2,12 +2,11 @@ import React from 'react';
 import {useState} from 'react'
 import {Form, Button, Input} from 'antd';
 import {createList, getTodos} from '../jobs';
-import List from "./List";
 import {Context} from "../App";
-
+import './list-form.css'
 // eslint-disable-next-line react/prop-types
 function ListForm() {
-    let {setState, state} = React.useContext(Context)
+    let {setState} = React.useContext(Context)
     const [list, setList] = useState({ name: ''});
     const [form] = Form.useForm();
   
@@ -20,8 +19,9 @@ function ListForm() {
     };
   
   return (
-    <div>
+    <div className="header">
            <Form
+               className="list-form"
         form={form}
         name="list-form"
         // initialValues={{ task: '' }}
@@ -42,7 +42,7 @@ function ListForm() {
           <Input />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="list-form-button">
             Submit
           </Button>
         </Form.Item>

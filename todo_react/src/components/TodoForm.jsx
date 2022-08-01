@@ -19,7 +19,6 @@ function TodoForm({ listId }) {
   const handleSubmit = async (newTodo) => {
     setTodo({ ...todo, title: newTodo.task, list_id: listId});
     await createTodo(todo).then(() => setState(['update state']))
-    console.log('new todo' + state)
     setTodo({ ...todo, title: '', list_id: null });
     form.resetFields();
   };

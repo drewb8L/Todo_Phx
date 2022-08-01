@@ -6,19 +6,19 @@ import {Context} from "../App";
 import './todo.css'
 
 
+// eslint-disable-next-line react/prop-types
 function TodoList({todo, listId}) {
-    let {setState, state} = React.useContext(Context)
+    let {setState} = React.useContext(Context)
   const [todos, setTodos] = useState([]);
   // const [state, setState] = useState([]);
 
   useEffect(() => {
     getTodos().then(() => setTodos(todo))
-    console.log("todolist")
   }, [todo]);
 
   return (
     <>
-      <TodoForm changeState={setState} listId={listId} />
+      <TodoForm changeState={setState} listId={listId} data-testid="todo-list" />
       <ul style={{ listStyleType: 'none' }}>
         {todos.map((item) => (
           <li key={item.id}>

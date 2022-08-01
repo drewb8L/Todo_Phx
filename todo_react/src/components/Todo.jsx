@@ -29,14 +29,12 @@ function Todo({
 
   useEffect(() => {
     getTodos()
-    console.log("from todo")
-  }, [state]);
+  }, [state, edit, completed]);
 
   const handleComplete = () => {
     // eslint-disable-next-line no-shadow
     // let todo = e.target.value;
     todo = JSON.parse(todo);
-    console.log(todo);
     todo.complete = !todo.complete;
     updateTodo(todo).then(() => changeState(['new data']));
     message.info(
