@@ -18,3 +18,15 @@ jobs:
           elixir-version: '1.13.4'
       - run: mix deps.get
       - run: mix test
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: react
+        working-directory: ./todo_react
+        run: |
+          npm install
+          npm test    
+        
+     

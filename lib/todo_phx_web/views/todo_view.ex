@@ -14,7 +14,8 @@ defmodule TodoPhxWeb.TodoView do
     %{
       id: todo.id,
       title: todo.title,
-      complete: todo.complete
+      complete: todo.complete,
+      list_id: todo.list_id
     }
   end
 end

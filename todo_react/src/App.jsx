@@ -1,13 +1,53 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import TodoList from './components/TodoList';
+
+import {getLists, deleteList} from "./jobs";
+import {Button, Card, message} from "antd";
+
+import TodoList from "./components/TodoList";
+import ListForm from "./components/ListForm";
+
+export let Context = React.createContext(undefined);
 
 function App() {
-  return (
-    <div className="App">
-      <TodoList />
-    </div>
-  );
+    const [lists, setLists] = useState([]);
+    const [state, setState] = useState('')
+
+    useEffect(() => {
+        getLists().then((data) => setLists(data));
+    }, [state])
+
+
+    const handleDelete = (id) => {
+        deleteList(id).then(() => setState('deleted todo'));
+        message.info('list deleted');
+    }
+    const divStyles = {
+        boxShadow: '1px 2px 9px #F4AAB9',
+        margin: '4em',
+        padding: '1em',
+        zIndex: '1',
+    };
+    return (
+        <Context.Provider value={{setState, state}}>
+            <div className="App" data-testid="app-div">
+                <ListForm data-testid="list-test"/>
+                <ul style={{listStyleType: 'none'}}>
+                    {lists.map((list) => (
+
+                        <li key={list.id}>
+                            <Card title={<h2>{list.name}</h2>} style={divStyles} data-testid="card-test" >
+                                <Button
+                                    onClick={() => handleDelete(list.id)}
+                                >delete</Button>
+                                <TodoList todo={list.todos} listId={list.id}/>
+                            </Card>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </Context.Provider>
+    );
 }
 
 export default App;

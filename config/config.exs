@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-#test for github
+# test for github
 import Config
 
 config :todo_phx,
