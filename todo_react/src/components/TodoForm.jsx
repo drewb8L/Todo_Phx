@@ -1,38 +1,44 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Form, Button, Input,
-} from 'antd';
-import {createTodo, getTodos} from '../jobs';
-import {Context} from "../App";
+import React, { useEffect, useState } from "react";
+import { Form, Button, Input } from "antd";
+import { createTodo, getTodos } from "../jobs";
 
 // eslint-disable-next-line react/prop-types
-function TodoForm({ listId }) {
-  let {setState, state} = React.useContext(Context)
-  const [todo, setTodo] = useState({ title: '', completed: false, list_id: null });
+
+function TodoForm(props) {
+  const [todo, setTodo] = useState({
+    title: "",
+    completed: false,
+    list_id: null,
+  });
   const [form] = Form.useForm();
 
-  useEffect(() =>{
-    getTodos().then(() => setState('new state'))
-
-  },[state])
+  useEffect(() => {
+    // eslint-disable-next-line react/prop-types
+    getTodos().then(() => props.changeState(["new state"]));
+  }, [todo]);
 
   const handleSubmit = async (newTodo) => {
-    setTodo({ ...todo, title: newTodo.task, list_id: listId});
-    await createTodo(todo).then(() => setState(['update state']))
-    setTodo({ ...todo, title: '', list_id: null });
+    // eslint-disable-next-line react/prop-types
+    setTodo({ ...todo, title: newTodo.task, list_id: props.list.id });
+    await createTodo(todo).then(() => setTodo(todo));
+    setTodo({ ...todo, title: "", list_id: null });
     form.resetFields();
   };
 
   return (
     <div>
-      <h1>Todo List</h1>
-
+      <h4 className={"todo-head"} style={{ marginTop: 20 }}>
+        Create a Todo
+      </h4>
       <Form
         form={form}
         name="Todo-form"
         // initialValues={{ task: '' }}
         preserve={false}
-        onValuesChange={(e) => setTodo({ ...todo, title: e.task, list_id: listId })}
+        onValuesChange={(e) =>
+          // eslint-disable-next-line react/prop-types
+          setTodo({ ...todo, title: e.task, list_id: props.list.id })
+        }
         onFinish={handleSubmit}
       >
         <Form.Item
@@ -43,7 +49,7 @@ function TodoForm({ listId }) {
           initialValue=""
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 8 }}
-          rules={[{ required: true, message: 'Field cannot be blank!' }]}
+          rules={[{ required: true, message: "Field cannot be blank!" }]}
         >
           <Input />
         </Form.Item>
@@ -53,6 +59,8 @@ function TodoForm({ listId }) {
           </Button>
         </Form.Item>
       </Form>
+      {/* eslint-disable-next-line react/prop-types */}
+      {props.todo}
     </div>
   );
 }

@@ -1,52 +1,42 @@
 /* eslint-disable react/prop-types */
 // noinspection JSIgnoredPromiseFromCall
 
-import React, { useEffect, useState } from 'react';
-import { EditFilled, CheckCircleFilled } from '@ant-design/icons';
-import {
-   Button, message, Modal, Popconfirm 
-  } from 'antd';
-import { deleteTodo, getTodos, updateTodo } from '../jobs';
-import './todo.css';
-import 'antd/dist/antd.css';
-import {Context} from "../App";
+import React, { useEffect, useState } from "react";
+import { EditFilled, CheckCircleFilled } from "@ant-design/icons";
+import { Button, message, Modal, Popconfirm } from "antd";
+import { deleteTodo, updateTodo } from "../jobs";
+import "./todo.css";
+import "antd/dist/antd.css";
 
 function Todo({
   // eslint-disable-next-line react/prop-types
-  changeState,
-  complete,
-  id,
-  title,
   todo,
+  changeState,
 }) {
-
   // eslint-disable-next-line no-unused-vars
-  const [completed, setCompleted] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [popconfirmVisible, setConfirmVisible] = useState(false);
-  const [edit, setEdit] = useState({ title: '', id: '' });
-  let {setState, state} = React.useContext(Context);
+  const [edit, setEdit] = useState({ ...todo, title: "", id: "" });
+  const [state, setState] = useState([""]);
 
   useEffect(() => {
-    getTodos()
-  }, [state, edit, completed]);
+    changeState(["new todo"]);
+  }, [state]);
 
   const handleComplete = () => {
     // eslint-disable-next-line no-shadow
-    // let todo = e.target.value;
-    todo = JSON.parse(todo);
     todo.complete = !todo.complete;
-    updateTodo(todo).then(() => changeState(['new data']));
+    updateTodo(todo).then(() => setState(["new data"]));
     message.info(
       todo.complete === false
         ? `${todo.title} Reset`
         : `${todo.title} Completed`
     );
-    setState('new state')
+    setState(["new state"]);
   };
-  const handelDelete = (todoId) => {
-    deleteTodo(todoId).then(() => changeState(['deleted todo']));
-    message.info('Task deleted');
+  const handelDelete = async (todoId) => {
+    await deleteTodo(todoId).then(() => setState(["deleted todo"]));
+    message.info("Task deleted");
   };
 
   const showModal = () => {
@@ -56,12 +46,13 @@ function Todo({
   const handleEdit = (e) => {
     e.preventDefault();
     showModal();
-    updateTodo({ ...edit, title: edit.title, id }).then(() =>
-      changeState(['new data'])
+    updateTodo({ ...edit, title: edit.title, id: todo.id }).then(() =>
+      setState(["new data from todo"])
     );
-    message.info('Task updated');
+    message.info("Task updated");
 
     setIsModalVisible(false);
+    changeState(["new state from todo"]);
   };
   const handleCancel = () => {
     setIsModalVisible(false);
@@ -71,40 +62,36 @@ function Todo({
     setConfirmVisible(true);
   };
 
-
   return (
     <div className="todo">
-      <h4>{title}</h4>
+      <h4>{todo.title}</h4>
       <p>
         Complete:
-        {complete ? 'Yes' : 'No'}
+        {todo.complete ? "Yes" : "No"}
       </p>
       <section className="update">
         <Button icon={<EditFilled />} onClick={showModal}>
           Edit
         </Button>
-       
+
         <Button
-        icon={<CheckCircleFilled />}
-        value={todo}
-        type={complete ? "ghost" : "primary"}
-        onClick={handleComplete}
-        
+          icon={<CheckCircleFilled />}
+          value={todo}
+          type={todo.complete ? "ghost" : "primary"}
+          onClick={handleComplete}
         >
-          {complete ? 'Done' : 'Complete Task'}
-          </Button>
+          {todo.complete ? "Done" : "Complete Task"}
+        </Button>
         <Popconfirm
           title="delete"
           visible={popconfirmVisible}
-          onConfirm={() => handelDelete(id)}
-          okButtonProps={id}
+          onConfirm={() => handelDelete(todo.id)}
+          okButtonProps={todo.id}
           onCancel={handleCancel}
         >
-          <Button
-          type='danger'
-          value={id}
-          onClick={showPopconfirm}
-          >Delete</Button>
+          <Button type="danger" value={todo.id} onClick={showPopconfirm}>
+            Delete
+          </Button>
         </Popconfirm>
 
         <Modal
@@ -129,7 +116,7 @@ function Todo({
               Submit
             </Button>
             <Button className="cancel" key="back" onClick={handleCancel}>
-              {' '}
+              {" "}
               Cancel
             </Button>
           </form>
