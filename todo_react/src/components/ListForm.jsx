@@ -1,27 +1,26 @@
-import React from 'react';
-import {useState} from 'react'
-import {Form, Button, Input} from 'antd';
-import {createList, getTodos} from '../jobs';
-import {Context} from "../App";
-import './list-form.css'
+import React from "react";
+import { useState } from "react";
+import { Form, Button, Input } from "antd";
+import { createList, getLists } from "../jobs";
+
+import "./list-form.css";
 // eslint-disable-next-line react/prop-types
-function ListForm() {
-    let {setState} = React.useContext(Context)
-    const [list, setList] = useState({ name: ''});
-    const [form] = Form.useForm();
-  
-    const handleSubmit = async (newList) => {
-      await setList({ ...list, name: newList.name});
-      createList(list).then(() => setState(['deleted todo'])).then(() => getTodos());
-      // console.log(state + " list form");
-      setList({ ...list, name: '' });
-      form.resetFields();
-    };
-  
+function ListForm({ changeState, children }) {
+  const [list, setList] = useState([{ name: "" }]);
+  const [form] = Form.useForm();
+
+  const handleSubmit = async (newList) => {
+    await setList([{ ...list, name: newList.name }]);
+    createList(list).then(() => getLists().then((lists) => setList(lists)));
+    changeState("update");
+    setList([{ ...list, name: "" }]);
+    form.resetFields();
+  };
+
   return (
     <div className="header">
-           <Form
-               className="list-form"
+      <Form
+        className="list-form"
         form={form}
         name="list-form"
         // initialValues={{ task: '' }}
@@ -37,7 +36,7 @@ function ListForm() {
           initialValue=""
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 8 }}
-          rules={[{ required: true, message: 'Field cannot be blank!' }]}
+          rules={[{ required: true, message: "Field cannot be blank!" }]}
         >
           <Input />
         </Form.Item>
@@ -47,8 +46,9 @@ function ListForm() {
           </Button>
         </Form.Item>
       </Form>
+      {children}
     </div>
-  )
+  );
 }
 
-export default ListForm
+export default ListForm;

@@ -1,38 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import Todo from './Todo';
-import { getTodos } from '../jobs';
-import TodoForm from './TodoForm';
-import {Context} from "../App";
-import './todo.css'
-
+import React, { useEffect, useState } from "react";
+import Todo from "./Todo";
+import { getTodos } from "../jobs";
+import "./todo.css";
 
 // eslint-disable-next-line react/prop-types
-function TodoList({todo, listId}) {
-    let {setState} = React.useContext(Context)
+function TodoList({ children, list, changeState }) {
+  // eslint-disable-next-line no-unused-vars
   const [todos, setTodos] = useState([]);
-  // const [state, setState] = useState([]);
+  const [state, setState] = useState([]);
 
   useEffect(() => {
-    getTodos().then(() => setTodos(todo))
-  }, [todo]);
+    getTodos()
+      .then((todos) => setTodos(todos))
+      .then(() => changeState(["todo list state"]));
+  }, [state]);
 
   return (
     <>
-      <TodoForm changeState={setState} listId={listId} data-testid="todo-list" />
-      <ul style={{ listStyleType: 'none' }}>
-        {todos.map((item) => (
-          <li key={item.id}>
-            <Todo
-                className="todo"
-              todo={JSON.stringify(item)}
-              complete={item.complete}
-              title={item.title}
-              id={item.id}
-              changeState={setState}
-            />
-          </li>
+      <div>
+        {/* eslint-disable-next-line react/prop-types */}
+        {list.todos.map((todo) => (
+          <Todo key={todo.id} todo={todo} changeState={setState} />
         ))}
-      </ul>
+        {children}
+      </div>
     </>
   );
 }
