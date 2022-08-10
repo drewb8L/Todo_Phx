@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import "./card.css";
 import { Button, Popconfirm, message } from "antd";
 import { deleteList } from "../jobs";
+
+
 // eslint-disable-next-line react/prop-types
-const Card = ({ children, list, changeState }) => {
+export const ListCard = ({ children, list, changeState }) => {
   const [popconfirmVisible, setConfirmVisible] = useState(false);
 
   const handleDelete = () => {
-    // eslint-disable-next-line react/prop-types
     // eslint-disable-next-line react/prop-types
     deleteList(list.id).then(() => changeState("deleted todo"));
     //this code below 'then()' is just to make eslint happy and for curiosity
@@ -34,7 +35,7 @@ const Card = ({ children, list, changeState }) => {
         okButtonProps={list.id}
         onCancel={handleCancel}
       >
-        <Button type={"primary"} danger={true} onClick={showPopconfirm}>
+        <Button type={"primary"} danger={true} onClick={showPopconfirm} data-testid={"card-delete-button"}>
           Delete
         </Button>
       </Popconfirm>
@@ -43,4 +44,4 @@ const Card = ({ children, list, changeState }) => {
   );
 };
 
-export default Card;
+// export default Card;

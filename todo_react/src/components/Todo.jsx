@@ -20,6 +20,7 @@ function Todo({
   const [state, setState] = useState([""]);
 
   useEffect(() => {
+    todo === undefined ? console.log('no todo') :
     changeState(["new todo"]);
   }, [state]);
 

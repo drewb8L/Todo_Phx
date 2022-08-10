@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Card from "./components/Card";
+import {ListCard} from "./components/ListCard";
 import { getLists } from "./jobs";
 
 import TodoList from "./components/TodoList";
@@ -22,10 +22,10 @@ function App() {
       <div className={"App"}>
         <ListForm changeState={setState}></ListForm>
         {lists.map((list) => (
-          <Card key={list.id} list={list} changeState={setState}>
+          <ListCard key={list.id} list={list} changeState={setState}>
             <TodoForm list={list} changeState={setState}></TodoForm>
             <TodoList list={list} changeState={setState}></TodoList>
-          </Card>
+          </ListCard>
         ))}
       </div>
     </>

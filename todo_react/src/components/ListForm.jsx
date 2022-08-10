@@ -5,7 +5,7 @@ import { createList, getLists } from "../jobs";
 
 import "./list-form.css";
 // eslint-disable-next-line react/prop-types
-function ListForm({ changeState, children }) {
+function ListForm({ changeState }) {
   const [list, setList] = useState([{ name: "" }]);
   const [form] = Form.useForm();
 
@@ -23,12 +23,13 @@ function ListForm({ changeState, children }) {
         className="list-form"
         form={form}
         name="list-form"
-        // initialValues={{ task: '' }}
+         initialValues={{ task: 'new task' }}
         preserve={false}
         onValuesChange={(e) => setList({ ...list, name: e.name })}
         onFinish={handleSubmit}
       >
         <Form.Item
+            data-testid ="form-item"
           label="New List"
           name="name"
           shouldUpdate
@@ -38,7 +39,7 @@ function ListForm({ changeState, children }) {
           wrapperCol={{ span: 8 }}
           rules={[{ required: true, message: "Field cannot be blank!" }]}
         >
-          <Input />
+          <Input data-testid ="input"/>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className="list-form-button">
@@ -46,7 +47,7 @@ function ListForm({ changeState, children }) {
           </Button>
         </Form.Item>
       </Form>
-      {children}
+
     </div>
   );
 }
